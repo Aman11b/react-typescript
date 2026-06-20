@@ -1,8 +1,8 @@
-import Component from "./final/01-return";
+import Component from "./starter/02-props";
 function App() {
   return (
     <main>
-      <Component />
+      <Component name="Aman" id={123} />
     </main>
   );
 }
