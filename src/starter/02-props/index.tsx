@@ -1,4 +1,6 @@
-function Component({ name, id }: { name: string; id: number }) {
+type ComponentProp = { name: string; id: number };
+
+function Component({ name, id }: ComponentProp) {
   return (
     <div>
       <h2>Name: {name}</h2>
