@@ -440,3 +440,50 @@ export default Component;
 ```
 
 > typescript interfer thr arrys as never[] and adding element to it cause an error if empty array is passed in useState
+
+## Events
+
+### chnage events
+
+```ts
+import React, { useState } from "react";
+
+function Component() {
+  const [text, setText] = useState("");
+  const [email, setEmail] = useState("");
+  // here need to defien
+  const handlechange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.value);
+    setEmail(e.target.value);
+  };
+
+
+  return (
+    <section>
+      <h2>event form</h2>
+      <form  className="form">
+        <input
+          type="text"
+          className="form-input mb-1"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          name="text"
+        />
+        // here its is automativ
+        <input
+          type="email"
+          className="form-input mb-1"
+          value={email}
+          onChange={handlechange}
+          email="email"
+        />
+        <button type="submit" className="btn btn-block">
+          Submit
+        </button>
+      </form>
+    </section>
+  );
+}
+export default Component;
+
+```
