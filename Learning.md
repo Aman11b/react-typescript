@@ -332,3 +332,111 @@ type Box<T> = {
 };
 type StringBox = Box<string>;
 ```
+
+### props
+
+```ts
+import { type PropsWithChildren } from "react";
+
+// type ComponentProp = { name: string; id: number; children?: React.ReactNode };
+
+type ComponentProp = PropsWithChildren<{ name: string; id: number }>;
+
+function Component({ name, id, children }: ComponentProp) {
+  return (
+    <div>
+      <h2>Name: {name}</h2>
+      <h2>Id: {id}</h2>
+      {children}
+    </div>
+  );
+}
+export default Component;
+
+```
+
+### state
+
+> ts automatically idetifies its type
+
+```ts
+import { useState } from "react";
+
+function Component() {
+  const [text, setText] = useState("shake");
+  const [number, setNumber] = useState(35);
+  const [list, setList] = useState<string[]>([]);
+  return (
+    <div>
+      <h2 className="mb-1 ">React & Typescript</h2>
+      <button className="btn btn-center" onClick={() => setText("hi")}>
+        {text}
+      </button>
+      <button className="btn btn-center" onClick={() => setNumber(1)}>
+        {number}
+      </button>
+      <button className="btn btn-center" onClick={() => setList(["hello"])}>
+        {list}
+      </button>
+    </div>
+  );
+}
+export default Component;
+
+```
+
+### custom list
+
+```ts
+import { useState } from "react";
+
+type Link = {
+  id: number;
+  url: string;
+  test: string;
+};
+
+const navLinks = [
+  {
+    id: 1,
+    url: "some",
+    test: "som omes",
+  },
+  {
+    id: 2,
+    url: "some",
+    test: "som omes",
+  },
+  {
+    id: 3,
+    url: "some",
+    test: "som omes",
+  },
+];
+
+function Component() {
+
+  const [links, setLinks] = useState<Link[]>(navLinks);
+  //its is incoring based on what i am passing in useState or use a Link type whihc make this strict
+  return (
+    <div className="flex gap-2">
+      <h2 className="mb-1 ">React & Typescript</h2>
+      <button
+        className="btn btn-center"
+        onClick={() => {
+          setLinks([...links, { id: 4, url: "hellow", test: "hi" }]);
+        }}
+      >
+        Click me
+        {navLinks.map((nav) => (
+          <p>{nav.id}</p>
+        ))}
+      </button>
+    </div>
+  );
+}
+export default Component;
+
+```
+
+> typescript interfer thr arrys as never[] and adding element to it cause an error if empty array is passed in useState
