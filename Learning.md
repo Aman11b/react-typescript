@@ -487,3 +487,17 @@ function Component() {
 export default Component;
 
 ```
+
+### form event
+
+```ts
+const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+  const formData = new FormData(e.currentTarget);
+  // const fomrData=new FormData(e.target as HTMLFormElement)
+  const data = Object.fromEntries(formData);
+  console.log(data);
+  // const text = formData.get("text") as string;
+  // const person: Person = { name: data.text as string };
+};
+```
