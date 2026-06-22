@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const tourScheme = z.object({
+export const tourSchema = z.object({
   id: z.string(),
   name: z.string(),
   image: z.string(),
@@ -8,4 +8,4 @@ export const tourScheme = z.object({
   price: z.string(),
 });
 
-export type Tour = z.infer<typeof tourScheme>;
+export type Tour = z.infer<typeof tourSchema>;
