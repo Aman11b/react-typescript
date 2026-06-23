@@ -713,3 +713,133 @@ export const counterSlice = createSlice({
 export const { increment, decrement, reset, setStatus } = counterSlice.actions;
 export default counterSlice.reducer;
 ```
+
+## Rkt setup
+
+> counterSlice.js
+
+```ts
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
+type CounterStatus = "active" | "inactive" | "pending";
+
+type CounterState = {
+  count: number;
+  status: CounterStatus;
+};
+
+const initialState: CounterState = {
+  count: 0,
+  status: "pending",
+};
+
+export const counterSlice = createSlice({
+  name: "counter",
+  initialState,
+  reducers: {
+    increment: (state) => {
+      state.count += 1;
+    },
+    decrement: (state) => {
+      state.count -= 1;
+    },
+    reset: (state) => {
+      state.count = 0;
+    },
+    setStatus: (state, action: PayloadAction<CounterStatus>) => {
+      state.status = action.payload;
+    },
+  },
+});
+
+export const { increment, decrement, reset, setStatus } = counterSlice.actions;
+export const counterReducer = counterSlice.reducer;
+```
+
+> store.ts
+
+```ts
+import { configureStore } from "@reduxjs/toolkit";
+import { counterReducer } from "./starter/09-rtk/counterSlice";
+
+export const store = configureStore({
+  reducer: {
+    counter: counterReducer,
+  },
+});
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+```
+
+> hook.ts
+
+```ts
+import type { TypedUseSelectorHook } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "./store";
+
+export const useAppDispatch: () => AppDispatch = useDispatch;
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
+```
+
+> main.ts
+
+```ts
+import ReactDOM from "react-dom/client";
+import { Provider } from "react-redux";
+import App from "./App.tsx";
+import "./index.css";
+import { store } from "./store.ts";
+
+ReactDOM.createRoot(document.getElementById("root")!).render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+);
+
+
+```
+
+## complete
+
+> index.tsx
+
+```ts
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import { decrement, increment, reset, setStatus } from "./counterSlice";
+
+function Component() {
+  const { count, status } = useAppSelector((state) => state.counter);
+  const dispatch = useAppDispatch();
+  return (
+    <div>
+      <h2>Count: {count}</h2>
+      <h2>Status: {status}</h2>
+
+      <div className="btn-container">
+        <button onClick={() => dispatch(increment())} className="btn">
+          Increment
+        </button>
+        <button onClick={() => dispatch(decrement())} className="btn">
+          Decrement
+        </button>
+        <button onClick={() => dispatch(reset())} className="btn">
+          Reset
+        </button>
+      </div>
+      <div className="btn-container">
+        <button onClick={() => dispatch(setStatus("active"))} className="btn">
+          Set Status to Active
+        </button>
+        <button className="btn" onClick={() => setStatus("inactive")}>
+          Set Status to Inactive
+        </button>
+      </div>
+    </div>
+  );
+}
+export default Component;
+
+``
+```

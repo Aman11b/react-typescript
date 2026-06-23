@@ -32,4 +32,4 @@ export const counterSlice = createSlice({
 });
 
 export const { increment, decrement, reset, setStatus } = counterSlice.actions;
-export default counterSlice.reducer;
+export const counterReducer = counterSlice.reducer;
